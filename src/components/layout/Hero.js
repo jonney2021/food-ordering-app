@@ -3,7 +3,7 @@ import Right from "../icons/Right";
 
 const Hero = () => {
   return (
-    <section className="hero">
+    <section className="hero mt-4">
       <div className="py-12">
         <h1 className="text-4xl font-semibold">
           Everything
@@ -15,11 +15,11 @@ const Hero = () => {
           delicious joy in life.
         </p>
         <div className="flex gap-4 text-sm ">
-          <button className="bg-primary uppercase items-center flex gap-2 text-white px-4 py-2 rounded-full">
+          <button className="flex justify-center bg-primary uppercase items-center flex gap-2 text-white px-4 py-2 rounded-full">
             Order Now
             <Right />
           </button>
-          <button className="flex gap-2 py-2 text-gray-600 font-semibold">
+          <button className="flex items-center border-0 gap-2 py-2 text-gray-600 font-semibold">
             Learn More <Right />
           </button>
         </div>
