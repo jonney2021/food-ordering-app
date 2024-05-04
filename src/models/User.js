@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 const UserSchema = new Schema(
   {
+    name: { type: String },
     email: {
       type: String,
       required: true,
@@ -10,21 +11,27 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
-      validate: (pass) => {
-        if (pass.length < 6) {
-          throw new Error("Password must be at least 6 characters long");
-        }
-      },
+    },
+    image: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    street: {
+      type: String,
+    },
+    postalCode: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    country: {
+      type: String,
     },
   },
   { timestamps: true }
 );
-
-UserSchema.post("validate", function (user) {
-  const notHashedPassword = user.password;
-  const salt = bcrypt.genSaltSync(10);
-  user.password = bcrypt.hashSync(notHashedPassword, salt);
-});
 
 export const User = models?.User || model("User", UserSchema);
