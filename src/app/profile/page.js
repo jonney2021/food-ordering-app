@@ -1,10 +1,13 @@
 "use client";
 
+import EditableImage from "@/components/layout/EditableImage";
 import InfoBox from "@/components/layout/InfoBox";
 import SuccessBox from "@/components/layout/SuccessBox";
+import UserTabs from "@/components/layout/UserTabs";
 import { set } from "mongoose";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -18,6 +21,8 @@ const ProfilePage = () => {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [profileFetched, setProfileFetched] = useState(false);
   // const [saved, setSaved] = useState(false);
   // const [isSaving, setIsSaving] = useState(false);
   // const [isUploading, setIsUploading] = useState(false);
@@ -35,6 +40,8 @@ const ProfilePage = () => {
           setPostalCode(data.postalCode);
           setCity(data.city);
           setCountry(data.country);
+          setIsAdmin(data.admin);
+          setProfileFetched(true);
         });
       });
     }
@@ -74,53 +81,6 @@ const ProfilePage = () => {
     // setIsSaving(false);
   };
 
-  const handleFileChange = async (e) => {
-    const files = e.target.files;
-    if (files?.length === 1) {
-      const data = new FormData();
-      data.set("file", files[0]);
-      // setIsUploading(true);
-
-      // console.log("File to be uploaded:", files[0]);
-
-      // const uploadPromise = new Promise(async (resolve, reject) => {
-      //   const response = await fetch("/api/upload", {
-      //     method: "POST",
-      //     body: data,
-      //     // headers: { "Content-Type": "multipart/form-data" },
-      //   });
-
-      //   if (response.ok) {
-      //     const linkData = await response.json();
-      //     // console.log("Link:", link);
-      //     setImage(linkData.link);
-      //     // setIsUploading(false);
-      //     resolve();
-      //   } else {
-      //     reject();
-      //   }
-      // });
-
-      const uploadPromise = fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      }).then((response) => {
-        if (response.ok) {
-          return response.json().then((link) => {
-            setImage(link.link);
-          });
-        }
-        throw new Error("Error uploading file");
-      });
-
-      await toast.promise(uploadPromise, {
-        loading: "Uploading...",
-        success: "Uploaded!",
-        error: "Error uploading file",
-      });
-    }
-  };
-
   if (status === "loading") {
     return "Loading...";
   }
@@ -131,9 +91,9 @@ const ProfilePage = () => {
 
   return (
     <section className="mt-8">
-      <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
+      <UserTabs isAdmin={isAdmin} />
 
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto mt-8">
         {/* {saved && <SuccessBox>Profile saved!</SuccessBox>}
 
         {isSaving && <InfoBox>Saving</InfoBox>} */}
@@ -143,27 +103,7 @@ const ProfilePage = () => {
         <div className="flex gap-4">
           <div>
             <div className="p-2 rounded-lg relative max-w-[120px]">
-              {image && (
-                <Image
-                  className="rounded-lg w-full h-full mb-1"
-                  src={image}
-                  width={250}
-                  height={250}
-                  alt={"avatar"}
-                />
-              )}
-
-              <label>
-                <input
-                  type="file"
-                  name="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-                <span className="block border border-gray-300 rounded-lg cursor-pointer p-2 text-center">
-                  Edit
-                </span>
-              </label>
+              <EditableImage link={image} setLink={setImage} />
             </div>
           </div>
           <form className="grow" onSubmit={handleProfileInfoUpdate}>

@@ -15,21 +15,6 @@ const UserSchema = new Schema(
     image: {
       type: String,
     },
-    phone: {
-      type: String,
-    },
-    street: {
-      type: String,
-    },
-    postalCode: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    country: {
-      type: String,
-    },
   },
   { timestamps: true }
 );
