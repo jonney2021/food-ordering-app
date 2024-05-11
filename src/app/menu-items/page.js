@@ -29,7 +29,7 @@ const MenuItemsPage = () => {
     return "Not an admin";
   }
   return (
-    <section className="mt-8 max-w-md mx-auto">
+    <section className="mt-8 max-w-lg mx-auto">
       <UserTabs isAdmin={true} />
       <div className="mt-8">
         <Link className="button" href={"./menu-items/new"}>
