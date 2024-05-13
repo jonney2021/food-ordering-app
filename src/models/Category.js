@@ -1,4 +1,4 @@
-const { Schema, models, model } = require("mongoose");
+import { Schema, models, model } from "mongoose";
 
 const CategorySchema = new Schema(
   {

@@ -1,23 +1,132 @@
-const MenuItem = () => {
-  return (
-    <div className="bg-gray-200 p-4 rounded-lg text-center hover:bg-white hover:shadow-md hover:shadow-black/25 transition-all">
-      <div className="text-center">
-        <img
-          src="/pizza.png"
-          alt="pizza"
-          className="max-h-auto max-h-24 block mx-auto"
-        />
-      </div>
+import { useContext, useState } from "react";
+import { CartContext } from "../AppContext";
+import { set } from "mongoose";
+import MenuItemTile from "./MenuItemTile";
+import Image from "next/image";
+import toast from "react-hot-toast";
 
-      <h4 className="font-semibold my-3 text-xl">Pepperoni Pizza</h4>
-      <p className="text-gray-500 text-sm">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam
-        velit, vulputate eu pharetra nec, mattis ac neque.
-      </p>
-      <button className="mt-4 bg-primary text-white rounded-full px-8 py-2">
-        Add to cart $12
-      </button>
-    </div>
+const MenuItem = (menuItem) => {
+  const { image, name, description, basePrice, sizes, extraIngredientPrices } =
+    menuItem;
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || null);
+  const [selectedExtras, setSelectedExtras] = useState([]); // [ {name: "extra", price: 1.5}
+  const [showPopup, setShowPopup] = useState(false);
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCartButtonClick = () => {
+    const hasOptions = sizes.length > 0 || extraIngredientPrices.length > 0;
+    if (hasOptions && !showPopup) {
+      setShowPopup(true);
+      return;
+    }
+
+    addToCart(menuItem, selectedSize, selectedExtras);
+    setShowPopup(false);
+    toast.success("Added to cart!");
+  };
+
+  const handleExtraThingClick = (e, extraThing) => {
+    const checked = e.target.checked;
+    if (checked) {
+      setSelectedExtras((prevExtras) => [...prevExtras, extraThing]);
+    } else {
+      setSelectedExtras((prevExtras) =>
+        prevExtras.filter((extra) => extra.name !== extraThing.name)
+      );
+    }
+  };
+
+  let selectedPrice = basePrice;
+  if (selectedSize) {
+    selectedPrice += selectedSize.price;
+  }
+
+  if (selectedExtras?.length > 0) {
+    for (const extra of selectedExtras) {
+      selectedPrice += extra.price;
+    }
+  }
+
+  return (
+    <>
+      {showPopup && (
+        <div
+          onClick={() => setShowPopup(false)}
+          className="fixed top-0 left-0 right-0 bg-black/80 flex items-center justify-center"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="my-8 bg-white p-2 rounded-lg max-w-md"
+          >
+            <div
+              className="overflow-y-scroll p-2"
+              style={{ maxHeight: "calc(100vh-40px)" }}
+            >
+              <Image
+                src={image}
+                alt={name}
+                width={300}
+                height={200}
+                className="mx-auto"
+              />
+              <h2 className="text-lg font-bold text-center mb-2">{name}</h2>
+              <p className="text-center text-gray-500 text-sm mb-2">
+                {description}
+              </p>
+              {sizes.length > 0 && (
+                <div className="p-2">
+                  <h3 className="text-center text-gray-700">Pick your sizes</h3>
+                  {sizes.map((size) => (
+                    <label
+                      className="flex items-center gap-2 p-4 border rounded-md mb-1"
+                      key={size.name}
+                    >
+                      <input
+                        type="radio"
+                        name="size"
+                        onClick={() => setSelectedSize(size)}
+                        checked={selectedSize?.name === size.name}
+                      />
+                      {size.name} - ${basePrice + size.price}
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {extraIngredientPrices.length > 0 && (
+                <div className="p-2">
+                  <h3 className="text-center text-gray-700">Any extras?</h3>
+                  {extraIngredientPrices.map((extraThing) => (
+                    <label
+                      className="flex items-center gap-2 p-4 border rounded-md mb-1"
+                      key={extraThing.name}
+                    >
+                      <input
+                        type="checkbox"
+                        name={extraThing.name}
+                        onClick={(e) => handleExtraThingClick(e, extraThing)}
+                      />
+                      {extraThing.name} + ${extraThing.price.toFixed(2)}
+                    </label>
+                  ))}
+                </div>
+              )}
+              <button
+                onClick={handleAddToCartButtonClick}
+                type="button"
+                className="primary sticky bottom-2"
+              >
+                Add to cart ${selectedPrice.toFixed(2)}
+              </button>
+              <button className="mt-2" onClick={() => setShowPopup(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <MenuItemTile onAddToCart={handleAddToCartButtonClick} {...menuItem} />
+    </>
   );
 };
 export default MenuItem;
