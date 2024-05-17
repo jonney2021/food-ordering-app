@@ -4,6 +4,7 @@ import { set } from "mongoose";
 import MenuItemTile from "./MenuItemTile";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import FlyingButton from "react-flying-item";
 
 const MenuItem = (menuItem) => {
   const { image, name, description, basePrice, sizes, extraIngredientPrices } =
@@ -13,7 +14,7 @@ const MenuItem = (menuItem) => {
   const [showPopup, setShowPopup] = useState(false);
   const { addToCart } = useContext(CartContext);
 
-  const handleAddToCartButtonClick = () => {
+  const handleAddToCartButtonClick = async () => {
     const hasOptions = sizes.length > 0 || extraIngredientPrices.length > 0;
     if (hasOptions && !showPopup) {
       setShowPopup(true);
@@ -21,8 +22,9 @@ const MenuItem = (menuItem) => {
     }
 
     addToCart(menuItem, selectedSize, selectedExtras);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setShowPopup(false);
-    toast.success("Added to cart!");
+    // toast.success("Added to cart!");
   };
 
   const handleExtraThingClick = (e, extraThing) => {
@@ -111,13 +113,15 @@ const MenuItem = (menuItem) => {
                   ))}
                 </div>
               )}
-              <button
-                onClick={handleAddToCartButtonClick}
-                type="button"
-                className="primary sticky bottom-2"
-              >
-                Add to cart ${selectedPrice.toFixed(2)}
-              </button>
+              <FlyingButton targetTop={"5%"} targetLeft={"95%"} src={image}>
+                <div
+                  className="primary sticky bottom-2"
+                  onClick={handleAddToCartButtonClick}
+                >
+                  Add to cart ${selectedPrice.toFixed(2)}
+                </div>
+              </FlyingButton>
+
               <button className="mt-2" onClick={() => setShowPopup(false)}>
                 Cancel
               </button>
