@@ -3,7 +3,6 @@
 import DeleteButton from "@/components/DeleteButton";
 import useProfile from "@/components/UseProfile";
 import UserTabs from "@/components/layout/UserTabs";
-import { set } from "mongoose";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
