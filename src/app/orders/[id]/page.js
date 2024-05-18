@@ -47,22 +47,22 @@ const OrderPage = () => {
       </div>
       {loadingOrder && <div>Loading order...</div>}
       {order && (
-        <div className="grid grid-cols-2 gap-16">
+        <div className="grid md:grid-cols-2 md:gap-16">
           <div>
             {order.cartProducts.map((product) => (
               <CartProduct product={product} key={product._id} />
             ))}
             <div className="text-right py-2 text-gray-500">
               Subtotal:{" "}
-              <span className="tet-black font-bold inline-block w-8">
+              <span className="text-black font-bold inline-block w-8">
                 ${subtotal}
               </span>
               <br />
               Delivery:{" "}
-              <span className="tet-black font-bold inline-block w-8">$5</span>
+              <span className="text-black font-bold inline-block w-8">$5</span>
               <br />
               Total:{" "}
-              <span className="tet-black font-bold inline-block w-8">
+              <span className="text-black font-bold inline-block w-8">
                 ${subtotal + 5}
               </span>
               <br />

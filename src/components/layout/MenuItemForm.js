@@ -40,7 +40,7 @@ const MenuItemForm = ({ onSubmit, menuItem }) => {
       className="mt-8 max-w-md mx-auto"
     >
       <div
-        className="grid gap-4 items-start"
+        className="md:grid gap-4 items-start"
         style={{ gridTemplateColumns: ".3fr .7fr" }}
       >
         <div>
