@@ -86,7 +86,7 @@ const MenuItem = (menuItem) => {
                       <input
                         type="radio"
                         name="size"
-                        onClick={() => setSelectedSize(size)}
+                        onChange={() => setSelectedSize(size)}
                         checked={selectedSize?.name === size.name}
                       />
                       {size.name} - ${basePrice + size.price}
@@ -106,7 +106,10 @@ const MenuItem = (menuItem) => {
                       <input
                         type="checkbox"
                         name={extraThing.name}
-                        onClick={(e) => handleExtraThingClick(e, extraThing)}
+                        onChange={(e) => handleExtraThingClick(e, extraThing)}
+                        checked={selectedExtras
+                          .map((e) => e._id)
+                          .includes(extraThing._id)}
                       />
                       {extraThing.name} + ${extraThing.price.toFixed(2)}
                     </label>
