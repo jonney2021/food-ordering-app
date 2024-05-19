@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Admin user
 
 username: admin@gmail.com
+
 password: admin1234
 
 ## Getting Started
