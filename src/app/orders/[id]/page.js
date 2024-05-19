@@ -21,10 +21,16 @@ const OrderPage = () => {
     if (id) {
       setLoadingOrder(true);
       fetch("/api/orders?_id=" + id).then((res) => {
-        res.json().then((orderData) => {
-          setOrder(orderData);
-          setLoadingOrder(false);
-        });
+        res
+          .json()
+          .then((orderData) => {
+            setOrder(orderData);
+            setLoadingOrder(false);
+          })
+          .catch((error) => {
+            console.error("Error loading order:", error);
+            setLoadingOrder(false);
+          });
       });
     }
   }, [id, clearCart]);
