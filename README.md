@@ -14,6 +14,8 @@ User profile with user listings
 
 Categories, Menu Items and Orders CRUD
 
+Admin management
+
 Cloudinary integration
 
 Toast notifications
