@@ -31,7 +31,7 @@ const CartProduct = ({ product, onRemove }) => {
           </div>
         )}
       </div>
-      <div className="text-lg font-semibold">{cartProductPrice(product)}</div>
+      <div className="text-lg font-semibold">${cartProductPrice(product)}</div>
       {!!onRemove && (
         <div className="ml-2">
           <button type="button" onClick={() => onRemove(index)} className="p-2">

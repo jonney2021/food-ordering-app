@@ -10,14 +10,29 @@ import toast from "react-hot-toast";
 const EditUserPage = () => {
   const { loading, data } = useProfile();
   const { id } = useParams();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/profile?_id=" + id).then((response) => {
-      response.json().then((user) => {
-        setUser(user);
-      });
-    });
+    if (id) {
+      fetch("/api/profile?_id=" + id)
+        .then((response) => response.json())
+        .then((userData) => {
+          setUser(userData);
+          setLoadingUser(false);
+        })
+        .catch((err) => {
+          setError("Error loading user information.");
+          setLoadingUser(false);
+        });
+    }
+
+    // fetch("/api/profile?_id=" + id).then((response) => {
+    //   response.json().then((user) => {
+    //     setUser(user);
+    //   });
+    // });
   }, []);
 
   const handleSaveButtonClick = async (e, data) => {
@@ -44,12 +59,16 @@ const EditUserPage = () => {
     });
   };
 
-  if (loading) {
+  if (loading || loadingUser) {
     return "Loading user info...";
   }
 
   if (!data.admin) {
     return "Not an admin.";
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (

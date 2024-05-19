@@ -58,11 +58,13 @@ const OrderPage = () => {
               </span>
               <br />
               Delivery:{" "}
-              <span className="text-black font-bold inline-block w-8">$5</span>
+              <span className="text-black font-bold inline-block w-8">
+                $5.00
+              </span>
               <br />
               Total:{" "}
               <span className="text-black font-bold inline-block w-8">
-                ${subtotal + 5}
+                ${(subtotal + 5).toFixed(2)}
               </span>
               <br />
             </div>
