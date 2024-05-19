@@ -6,6 +6,20 @@ username: admin@gmail.com
 
 password: admin1234
 
+## Features
+
+User authentication with Google & Next Auth
+
+User profile with user listings
+
+Categories, Menu Items and Orders CRUD
+
+Cloudinary integration
+
+Toast notifications
+
+Responsive design (Tailwind)
+
 ## Getting Started
 
 First, run the development server:
