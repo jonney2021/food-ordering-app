@@ -30,7 +30,7 @@ const ProfilePage = () => {
     if (status === "authenticated") {
       fetch("/api/profile").then((response) => {
         response.json().then((data) => {
-          console.log("data:", data);
+          // console.log("data:", data);
           setUser(data);
           setIsAdmin(data.admin);
           setProfileFetched(true);

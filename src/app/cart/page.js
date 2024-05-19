@@ -1,6 +1,6 @@
 "use client";
 
-import { CartContext, cartProductPrice } from "@/components/AppContext";
+import { CartContext, cartProductPrice } from "@/AppContext";
 import useProfile from "@/components/UseProfile";
 import Trash from "@/components/icons/Trash";
 import AddressInputs from "@/components/layout/AddressInputs";

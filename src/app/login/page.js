@@ -13,9 +13,15 @@ const LoginPage = () => {
     e.preventDefault();
     setLoginInProgress(true);
 
-    await signIn("credentials", { email, password, callbackUrl: "/" });
+    await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/",
+    });
+
     setLoginInProgress(false);
   };
+
   return (
     <section className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Login</h1>

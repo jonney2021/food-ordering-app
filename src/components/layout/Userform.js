@@ -6,7 +6,7 @@ import useProfile from "../UseProfile";
 import AddressInputs from "./AddressInputs";
 
 const Userform = ({ user, onSave }) => {
-  console.log("user:", user);
+  // console.log("user:", user);
   const [userName, setUserName] = useState(user?.name || "");
   const [image, setImage] = useState(user?.image || "");
   const [phone, setPhone] = useState(user?.phone || "");

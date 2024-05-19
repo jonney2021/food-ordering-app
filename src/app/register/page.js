@@ -18,14 +18,6 @@ const Register = () => {
     setCreatingUser(true);
     setError(false);
     setUserCreated(false);
-    // axios
-    //   .post("/api/register", { email, password })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
 
     const response = await fetch("/api/register", {
       method: "POST",
@@ -36,6 +28,8 @@ const Register = () => {
     });
     if (response.ok) {
       setUserCreated(true);
+      setEmail("");
+      setPassword("");
     } else {
       setError(true);
     }
@@ -75,6 +69,7 @@ const Register = () => {
           disabled={creatingUser}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <button type="submit" disabled={creatingUser}>
           Register
         </button>

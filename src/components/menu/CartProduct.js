@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Trash from "../icons/Trash";
-import { cartProductPrice } from "../AppContext";
+import { cartProductPrice } from "../../AppContext";
 
 const CartProduct = ({ product, onRemove }) => {
   return (

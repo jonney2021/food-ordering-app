@@ -1,6 +1,5 @@
 "use client";
 
-import { set } from "mongoose";
 import { SessionProvider } from "next-auth/react";
 import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -20,7 +19,7 @@ export const cartProductPrice = (cartProduct) => {
   return price;
 };
 
-const AppProvider = ({ children }) => {
+const AppProvider = ({ children, session }) => {
   const [cartProducts, setCartProducts] = useState([]);
 
   const ls = typeof window !== "undefined" ? window.localStorage : null;
@@ -63,7 +62,7 @@ const AppProvider = ({ children }) => {
     });
   };
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <CartContext.Provider
         value={{
           cartProducts,

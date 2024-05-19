@@ -1,9 +1,7 @@
 import { useContext, useState } from "react";
-import { CartContext } from "../AppContext";
-import { set } from "mongoose";
+import { CartContext } from "../../AppContext";
 import MenuItemTile from "./MenuItemTile";
 import Image from "next/image";
-import toast from "react-hot-toast";
 import FlyingButton from "react-flying-item";
 
 const MenuItem = (menuItem) => {
@@ -54,16 +52,13 @@ const MenuItem = (menuItem) => {
       {showPopup && (
         <div
           onClick={() => setShowPopup(false)}
-          className="fixed top-0 left-0 right-0 bg-black/80 flex items-center justify-center"
+          className="fixed inset-0 bg-black/80 flex items-center justify-center"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="my-8 bg-white p-2 rounded-lg max-w-md"
+            className="my-8 bg-white p-2 rounded-lg max-w-md max-h-[90vh] overflow-y-auto"
           >
-            <div
-              className="overflow-y-scroll p-2"
-              style={{ maxHeight: "calc(100vh-40px)" }}
-            >
+            <div className="p-2">
               <Image
                 src={image}
                 alt={name}
@@ -75,7 +70,7 @@ const MenuItem = (menuItem) => {
               <p className="text-center text-gray-500 text-sm mb-2">
                 {description}
               </p>
-              {sizes.length > 0 && (
+              {sizes?.length > 0 && (
                 <div className="p-2">
                   <h3 className="text-center text-gray-700">Pick your sizes</h3>
                   {sizes.map((size) => (
@@ -118,7 +113,8 @@ const MenuItem = (menuItem) => {
               )}
               <FlyingButton targetTop={"5%"} targetLeft={"95%"} src={image}>
                 <div
-                  className="primary sticky bottom-2"
+                  className="primary sticky bottom-2 "
+                  // className="bg-primary text-white py-2 px-4 rounded-md text-center cursor-pointer"
                   onClick={handleAddToCartButtonClick}
                 >
                   Add to cart ${selectedPrice.toFixed(2)}

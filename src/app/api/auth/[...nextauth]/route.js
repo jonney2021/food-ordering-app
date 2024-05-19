@@ -1,12 +1,14 @@
 import { User } from "@/models/User";
 import mongoose from "mongoose";
-import NextAuth, { getServerSession } from "next-auth";
+// import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongoConnect";
 import { UserInfo } from "@/models/UserInfo";
+import NextAuth, { getServerSession } from "next-auth/next";
+import { callbackify } from "util";
 
 export const authOptions = {
   secret: process.env.SECRET,
@@ -21,7 +23,7 @@ export const authOptions = {
       name: "Credentials",
       id: "credentials",
       credentials: {
-        username: {
+        email: {
           label: "Email",
           type: "email",
           placeholder: "test@example.com",
@@ -32,11 +34,10 @@ export const authOptions = {
         // console.log({ credentials });
         const email = credentials?.email;
         const password = credentials?.password;
-        mongoose.connect(process.env.MONGO_URL);
+        await mongoose.connect(process.env.MONGO_URL);
         const user = await User.findOne({ email });
         const passwordOk = user && bcrypt.compareSync(password, user.password);
 
-        console.log(passwordOk);
         if (passwordOk) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
@@ -46,6 +47,30 @@ export const authOptions = {
       },
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        // token.password = user.password;
+      }
+      // console.log("This is the token: ", token);
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        // session.user.password = token.password;
+      }
+      // console.log("This is the session: ", session);
+      return session;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
 };
 
 export async function isAdmin() {

@@ -2,53 +2,70 @@
 import { signOut, useSession } from "next-auth/react";
 
 import Link from "next/link";
-import { useContext, useState } from "react";
-import { CartContext } from "../AppContext";
-import ShoppingCart from "../icons/ShoppingCart";
-import Bars3 from "../icons/Bars3";
-
-function AuthLinks({ status, userName }) {
-  if (status === "authenticated") {
-    return (
-      <>
-        <Link href={"/profile"} className="whitespace-nowrap">
-          Hello, {userName}
-        </Link>
-        <button
-          onClick={() => signOut()}
-          className="bg-primary rounded-full text-white px-8 py-2"
-        >
-          Logout
-        </button>
-      </>
-    );
-  }
-  if (status === "unauthenticated") {
-    return (
-      <>
-        <Link href={"/login"}>Login</Link>
-        <Link
-          href={"/register"}
-          className="bg-primary rounded-full text-white px-8 py-2"
-        >
-          Register
-        </Link>
-      </>
-    );
-  }
-}
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "@/AppContext";
+import ShoppingCart from "@/components/icons/ShoppingCart";
+import Bars3 from "@/components/icons/Bars3";
 
 const Header = () => {
-  const session = useSession();
-  console.log(session);
+  // const session = useSession();
+  // console.log("Session: ", session);
+  // const { cartProducts } = useContext(CartContext);
+  // const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  // const status = session?.status;
+  // const userData = session.data?.user;
+  // let userName = userData?.name || userData?.email;
+  // if (userName && userName.includes(" ")) {
+  //   userName = userName.split(" ")[0];
+  // }
+
+  // console.log("Username:", userName);
+
+  const { data: session, status } = useSession();
+  // console.log("Session: ", session);
   const { cartProducts } = useContext(CartContext);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const status = session?.status;
-  const userData = session.data?.user;
-  let userName = userData?.name || userData?.email;
-  if (userName && userName.includes(" ")) {
-    userName = userName.split(" ")[0];
-  }
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // console.log("Session data in Header component: ", session);
+    if (session?.user) {
+      setUserName(session.user.name?.split(" ")[0] || session.user.email);
+      // setUserName(session.user.email);
+    }
+  }, [session]);
+
+  const AuthLinks = ({ status, userName }) => {
+    if (status === "authenticated") {
+      return (
+        <>
+          <Link href={"/profile"} className="whitespace-nowrap">
+            Hello, {userName}
+          </Link>
+          <button
+            onClick={() => signOut()}
+            className="bg-primary rounded-full text-white px-8 py-2"
+          >
+            Logout
+          </button>
+        </>
+      );
+    }
+    if (status === "unauthenticated") {
+      return (
+        <>
+          <Link href={"/login"}>Login</Link>
+          <Link
+            href={"/register"}
+            className="bg-primary rounded-full text-white px-8 py-2"
+          >
+            Register
+          </Link>
+        </>
+      );
+    }
+  };
+
   return (
     <header>
       <div className="flex items-center md:hidden justify-between">
