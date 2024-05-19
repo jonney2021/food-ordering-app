@@ -4,7 +4,6 @@ import { CartContext, cartProductPrice } from "@/AppContext";
 import AddressInputs from "@/components/layout/AddressInputs";
 import SectionHeaders from "@/components/layout/SectionHeaders";
 import CartProduct from "@/components/menu/CartProduct";
-import { set } from "mongoose";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
@@ -14,7 +13,7 @@ const OrderPage = () => {
   const { id } = useParams();
   const [loadingOrder, setLoadingOrder] = useState(true);
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window.console !== "undefined") {
       if (window.location.href.includes("clear-cart=1")) {
         clearCart();
       }

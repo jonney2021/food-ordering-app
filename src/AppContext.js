@@ -33,6 +33,12 @@ const AppProvider = ({ children, session }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!session) {
+      clearCart();
+    }
+  }, [session]);
+
   const clearCart = () => {
     setCartProducts([]);
     saveCartProductsToLocalStorage([]);
