@@ -3,8 +3,9 @@ import EditableImage from "./EditableImage";
 import Trash from "../icons/Trash";
 import Plus from "../icons/Plus";
 import MenuItemPriceProps from "./MenuItemPriceProps";
+import DeleteButton from "../DeleteButton";
 
-const MenuItemForm = ({ onSubmit, menuItem }) => {
+const MenuItemForm = ({ onSubmit, menuItem, onDelete }) => {
   const [image, setImage] = useState(menuItem?.image || "");
   const [name, setName] = useState(menuItem?.name || "");
   const [description, setDescription] = useState(menuItem?.description || "");
@@ -54,10 +55,12 @@ const MenuItemForm = ({ onSubmit, menuItem }) => {
             onChange={(e) => setName(e.target.value)}
           />
           <label>Description</label>
-          <input
-            type="text"
+
+          <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            rows="4"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
           />
           <label>Category</label>
           <select
@@ -90,7 +93,13 @@ const MenuItemForm = ({ onSubmit, menuItem }) => {
             props={extraIngredientPrices}
             setProps={setExtraIngredientPrices}
           />
-          <button type="submit">Save</button>
+          {/* <button type="submit">Save</button> */}
+          <div className="flex justify-between items-center mt-4 gap-1">
+            <button type="submit" className="button primary">
+              Save
+            </button>
+            <DeleteButton label={"Delete"} onDelete={onDelete} />
+          </div>
         </div>
       </div>
     </form>
