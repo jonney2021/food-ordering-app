@@ -1,9 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## This is a Food Ordering App bulit in Next.js 14, MongoDB and Tailwind CSS.
 
 ## Admin user
 
 username: admin@gmail.com
+
 password: admin1234
+
+## Features
+
+User authentication with Google & Next Auth
+
+User profile with user listings
+
+Categories, Menu Items and Orders CRUD
+
+Admin management
+
+Cloudinary integration
+
+Toast notifications
+
+Responsive design (Tailwind)
 
 ## Getting Started
 
